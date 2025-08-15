@@ -1,0 +1,570 @@
+Build a production-ready React + Vite website for a digital marketing agency. Follow every instruction exactly.
+
+Tech Stack
+
+React 18 + Vite
+
+React Router DOM (file-based routes not required; use a central router)
+
+react-helmet-async for per-page SEO tags
+
+Tailwind CSS (utility-first, responsive, gradient helpers)
+
+Framer Motion (light animations)
+
+Node script to generate sitemap.xml
+
+Static robots.txt, manifest.webmanifest, favicons
+
+Brand & Domain
+
+Brand: TREND MAKERS 360
+
+Tagline: “Trending starts here”
+
+Domain: https://www.trendmakers360.in
+
+Primary gradient: linear-gradient(135deg, #000080 0%, #00bfff 100%)
+
+Text color: #0B1220 (near-black)
+
+Header uses logo image file only (no text title): assets/img/logo.svg (fallback logo.png) with alt="TREND MAKERS 360 logo"
+
+Project Structure (create exactly these)
+/public
+  /assets/img/logo.svg
+  /assets/icons/favicon-192.png
+  /assets/icons/favicon-512.png
+  /og/og-default.jpg
+  robots.txt
+  manifest.webmanifest
+
+/src
+  /components
+    Header.jsx
+    MobileNav.jsx
+    Footer.jsx
+    SEO.jsx
+    CTAButtons.jsx
+    LogoWall.jsx
+    TestimonialSlider.jsx
+    StatRow.jsx
+    ServiceCard.jsx
+    Breadcrumbs.jsx
+    FAQ.jsx
+  /pages
+    Home.jsx
+    About.jsx
+    Services.jsx
+    services/SocialMediaManagement.jsx
+    services/CreativeDesign.jsx
+    services/SEOForColleges.jsx
+    services/PerformanceMarketing.jsx
+    services/BrandingStrategy.jsx
+    Portfolio.jsx
+    CaseStudies.jsx
+    case-studies/XYZCollegeKerala.jsx
+    Blog.jsx
+    blog/AdmissionsDigitalMarketingTN.jsx
+    Contact.jsx
+    Privacy.jsx
+    Terms.jsx
+    NotFound.jsx
+  /lib
+    routes.js
+    seoConfig.js
+    jsonld.js
+    sitemap.js
+  /styles
+    tailwind.css
+  main.jsx
+  App.jsx
+  index.css
+
+package.json
+tailwind.config.js
+postcss.config.js
+vite.config.js
+
+Routing
+
+Use React Router v6 with code-splitting via React.lazy for all pages. Include a 404 route. Ensure scroll-to-top on route change.
+
+Global UI & Layout Rules
+
+Sticky header with translucent/blurred background; ensure it does not overlap anchor targets (add scroll-margin-top).
+
+Mobile nav drawer with the same links as desktop + two CTAs: “Book Strategy Call” and “WhatsApp Us”.
+
+Buttons: rounded-xl, gradient background, hover: slight lift + gradient shift.
+
+Spacing & rhythm: Tailwind’s container mx-auto px-4 sm:px-6 lg:px-8, generous py-16 sections.
+
+Images: every <img> uses loading="lazy" + descriptive alt.
+
+Accessibility: WCAG AA contrast; visible focus states; aria labels for nav/drawer/slider/accordions.
+
+Navigation (exact labels/links)
+
+Home /
+
+Services /services (with subpages)
+
+Portfolio /portfolio
+
+Case Studies /case-studies
+
+About /about
+
+Blog /blog
+
+Contact /contact
+
+Header right CTAs:
+
+Book Strategy Call → # (placeholder)
+
+WhatsApp Us → https://wa.me/91XXXXXXXXXX (placeholder)
+
+SEO Requirements (must implement all)
+
+Per-page unique: <title>, <meta name="description">, canonical, OG, Twitter card using react-helmet-async within a reusable <SEO /> component.
+
+Hreflang: default en-IN (prepare for ta-IN later).
+
+JSON-LD (valid syntax) via <script type="application/ld+json">:
+
+Organization with "@type": "AdvertisingAgency": name, url, logo, sameAs (placeholders), contactPoint, areaServed (Tamil Nadu, Kerala, Andhra Pradesh), foundingDate, email, telephone, address (Chennai placeholder).
+
+BreadcrumbList on all interior pages.
+
+Service for each service subpage.
+
+FAQPage on Home (or dedicated FAQ section on Home).
+
+Article for blog posts; Case study page uses Article with "articleSection": "Case Study".
+
+Open Graph / Twitter: title, description, canonical, og:image (use /og/og-default.jpg), og:type, twitter:card=summary_large_image.
+
+Sitemap: create /src/lib/sitemap.js to output /public/sitemap.xml listing ALL routes. Include lastmod and priority.
+
+robots.txt: in /public/robots.txt referencing https://www.trendmakers360.in/sitemap.xml. Allow all.
+
+Performance: preconnect to Google Fonts, font-display: swap, lazy-load images, code-split routes, use Tailwind for lean CSS.
+
+Analytics placeholder: add GA4 snippet placeholder in index.html (commented).
+
+PWA basics: manifest.webmanifest with name, theme color, icons.
+
+QA checks: All CTAs link, sticky header doesn’t overlap, images have meaningful alt text, meta tags are unique per page.
+
+Styles (Tailwind)
+
+Configure Tailwind; use a gradient utility class, e.g.:
+
+bg-gradient-to-tr from-[#000080] to-[#00bfff]
+
+Use text-[#0B1220] for body, lots of white space.
+
+Utilities for scroll-margin-top on heading anchors (to avoid sticky overlap).
+
+Reusable <SEO /> Component (spec)
+
+Props: title, description, path, ogImage, jsonLd
+
+Computes:
+
+const url = 'https://www.trendmakers360.in' + path
+
+Adds <link rel="canonical" href={url} />
+
+Adds meta for description, OG, Twitter
+
+Renders <script type="application/ld+json">{jsonLd}</script> when provided
+
+Default ogImage = /og/og-default.jpg
+
+JSON-LD Helpers (/src/lib/jsonld.js)
+
+orgSchema()
+
+breadcrumbSchema(items) where items = [{name, url}]
+
+serviceSchema({name, description, url, areaServed})
+
+faqSchema(qaArray)
+
+articleSchema({headline, description, image, datePublished, author, url})
+
+Sitemap Script (/src/lib/sitemap.js)
+
+Export a Node script that writes /public/sitemap.xml with all routes:
+
+/, /services, /services/social-media-management, /services/creative-design, /services/seo-for-colleges, /services/performance-marketing, /services/branding-strategy, /portfolio, /case-studies, /case-studies/xyz-college-kerala, /about, /blog, /blog/how-colleges-in-tamil-nadu-can-boost-admissions-with-digital-marketing, /contact, /privacy, /terms
+
+Add npm script: "generate:sitemap": "node src/lib/sitemap.js"
+
+robots.txt (/public/robots.txt)
+User-agent: *
+Allow: /
+
+Sitemap: https://www.trendmakers360.in/sitemap.xml
+
+Manifest (/public/manifest.webmanifest)
+
+name/short_name = TREND MAKERS 360
+
+theme_color = #000080
+
+background_color = #ffffff
+
+icons = the 192/512 images
+
+Content (insert exactly; reword lightly if needed)
+
+Home.jsx
+
+<SEO>:
+
+title: TREND MAKERS 360 | College Digital Marketing in Tamil Nadu
+
+description: Scroll-stopping creatives, SEO, and ads for colleges in Tamil Nadu. From Kerala to AP — we make your brand trend.
+
+path: /
+
+jsonLd: orgSchema() + faqSchema() and a breadcrumb with Home only
+
+Hero:
+
+H1: TREND MAKERS 360
+
+Tagline: Trending starts here.
+
+Supporting line: We help colleges dominate the digital space — from scroll-stopping social media to precision-targeted SEO & ads.
+
+CTAs: “See Our Work” (anchor to Portfolio section) and “Book a Free Strategy Call” (#)
+
+Visual: collage mockups (use placeholder images), ensure alt text
+
+StatRow: “20+ institutions served” • “1000+ creatives delivered” • “3 states covered”
+
+Services preview: 5 ServiceCards linking to subpages
+
+“Why TREND MAKERS 360?”
+
+bullets: Education marketing expertise; Multi-state experience; Creative that converts; Fast turnarounds
+
+Testimonials slider (3 quotes, placeholders)
+
+FAQ (5–8 Q&As from earlier plan) + render as FAQPage JSON-LD
+
+Final CTA band with gradient background: “Trending starts here — let’s make your college go viral.” + CTA buttons
+
+Services.jsx
+
+<SEO>:
+
+title: Services | Social, SEO, Ads & Creative for Colleges
+
+description: Full-stack marketing for colleges: social media, creative design, SEO, Meta & Google Ads.
+
+path: /services
+
+breadcrumb: Home > Services
+
+Cards for:
+
+Social Media Management
+
+Creative Design
+
+SEO for Colleges
+
+Performance Marketing
+
+Branding Strategy
+
+services/SocialMediaManagement.jsx
+
+<SEO>:
+
+title: Social Media Management for Colleges | TREND MAKERS 360
+
+description: End-to-end social media for Instagram, Facebook, Threads, Pinterest — content, engagement, reporting.
+
+path: /services/social-media-management
+
+breadcrumb: Home > Services > Social Media Management
+
+jsonLd: serviceSchema({ name:'Social Media Management', description:'...', url:'https://www.trendmakers360.in/services/social-media-management', areaServed:['Tamil Nadu','Kerala','Andhra Pradesh'] })
+
+Content: strategy, posting cadence, engagement workflows, sample grid mockups, CTA
+
+services/CreativeDesign.jsx
+
+<SEO>:
+
+title: Creative Design for Colleges | Scroll-Stopping Posters & Reels
+
+description: Admissions campaigns, event posters, reels, and carousels that your students actually share.
+
+path: /services/creative-design
+
+breadcrumb: Home > Services > Creative Design
+
+jsonLd: serviceSchema({ name:'Creative Design', ... })
+
+services/SEOForColleges.jsx
+
+<SEO>:
+
+title: SEO for Colleges in Tamil Nadu | TREND MAKERS 360
+
+description: Rank for program keywords and admissions queries with technical, on-page, and local SEO.
+
+path: /services/seo-for-colleges
+
+breadcrumb: Home > Services > SEO for Colleges
+
+jsonLd: serviceSchema({ name:'SEO for Colleges', ... })
+
+Content: technical fixes, program keywords, local SEO, content plan, schema, GMB optimization
+
+services/PerformanceMarketing.jsx
+
+<SEO>:
+
+title: Meta & Google Ads for Colleges | Lead Generation
+
+description: Smart targeting, landing pages, conversion tracking — ROI-focused paid campaigns.
+
+path: /services/performance-marketing
+
+jsonLd: serviceSchema({ name:'Performance Marketing', ... })
+
+services/BrandingStrategy.jsx
+
+<SEO>:
+
+title: Branding Strategy for Colleges | Voice, Visuals, Hashtags
+
+description: Build consistent brand voice, color systems, hashtags, and content pillars for your college.
+
+path: /services/branding-strategy
+
+jsonLd: serviceSchema({ name:'Branding Strategy', ... })
+
+Portfolio.jsx
+
+<SEO>:
+
+title: Our Work | Social Creatives & Campaigns
+
+description: Explore sample posters, reels, admissions and event campaigns for colleges.
+
+path: /portfolio
+
+breadcrumb: Home > Portfolio
+
+Grid gallery with hover enlarge, categories (Event Creatives, Admission Drives, Festive Designs, Reels). All images lazy-load with alt text.
+
+CaseStudies.jsx
+
+<SEO>:
+
+title: Case Studies | Results for Colleges
+
+description: Real wins: more engagement, more leads, stronger admissions seasons.
+
+path: /case-studies
+
+breadcrumb: Home > Case Studies
+
+Teaser cards linking to detail pages (include one detail page below).
+
+case-studies/XYZCollegeKerala.jsx
+
+<SEO>:
+
+title: Case Study: XYZ College (Kerala) — 5× Instagram Engagement in 60 Days
+
+description: Challenge, strategy, execution, and results of our social growth sprint for XYZ College.
+
+path: /case-studies/xyz-college-kerala
+
+breadcrumb: Home > Case Studies > XYZ College
+
+jsonLd: articleSchema({ headline:'5× Instagram Engagement...', description:'...', image:'/og/og-default.jpg', datePublished:'2024-01-10', author:'TREND MAKERS 360', url:'https://www.trendmakers360.in/case-studies/xyz-college-kerala' })
+
+Sections: Challenge → Strategy → Execution → Results (metrics) → Testimonial → CTA
+
+About.jsx
+
+<SEO>:
+
+title: About TREND MAKERS 360
+
+description: From Kerala to Andhra, now powering Tamil Nadu’s college marketing with creative + performance.
+
+path: /about
+
+breadcrumb: Home > About
+
+Story + quick stats + team preview + values
+
+Blog.jsx
+
+<SEO>:
+
+title: Insights | Digital Marketing for Colleges
+
+description: Guides on admissions marketing, SEO, and social content that actually works.
+
+path: /blog
+
+breadcrumb: Home > Blog
+
+List of posts (at least one sample)
+
+blog/AdmissionsDigitalMarketingTN.jsx
+
+<SEO>:
+
+title: How Colleges in Tamil Nadu Can Boost Admissions with Digital Marketing
+
+description: Local SEO checklist, social calendar tips, and an ad funnel starter for colleges.
+
+path: /blog/how-colleges-in-tamil-nadu-can-boost-admissions-with-digital-marketing
+
+breadcrumb: Home > Blog > Article
+
+jsonLd: articleSchema({ headline:'How Colleges in Tamil Nadu...', ... })
+
+Sections: search intent intro, local SEO checklist, social calendar, ad funnel basics, CTAs.
+
+Contact.jsx
+
+<SEO>:
+
+title: Contact Us | TREND MAKERS 360
+
+description: Let’s plan your next admissions campaign. Fast response guaranteed.
+
+path: /contact
+
+breadcrumb: Home > Contact
+
+Form fields: Name, Email, Phone, College Name, Message
+
+Honeypot anti-spam field; basic client-side validation
+
+WhatsApp button; email mailto: link; placeholder Google Map embed (Chennai)
+
+Microcopy: “We reply within 1 business day.”
+
+Privacy.jsx / Terms.jsx
+
+Basic legal copy + <SEO> with canonical etc.
+
+NotFound.jsx
+
+Friendly 404 with search bar and popular links.
+
+Header.jsx (requirements)
+
+Left: logo image only (no text). img src="/assets/img/logo.svg" alt="TREND MAKERS 360 logo" width/height sensible
+
+Center/right: nav links
+
+Right: CTAs (“Book Strategy Call”, “WhatsApp Us”)
+
+Mobile: hamburger → <MobileNav /> slide-in
+
+Add role="navigation", aria-label="Main"
+
+Footer.jsx
+
+Mini about, NAP block (Chennai placeholder), quick links, social icons, copyright
+
+Newsletter signup (email only) with honeypot
+
+“Made with ❤️ in India”
+
+Breadcrumbs.jsx
+
+Visible on interior pages; also output BreadcrumbList JSON-LD
+
+FAQ.jsx
+
+Use the five Q&As:
+
+Launch speed (7–10 days)
+
+Full management vs creatives-only
+
+SEO approach for colleges
+
+Meta + Google Ads capability
+
+Work outside Tamil Nadu
+Also export their JSON-LD via helper.
+
+Commands & Scripts (package.json)
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node src/lib/sitemap.js",
+    "preview": "vite preview",
+    "generate:sitemap": "node src/lib/sitemap.js",
+    "lint": "echo \"(optional)\""
+  },
+  "dependencies": {
+    "react": "^18.x",
+    "react-dom": "^18.x",
+    "react-router-dom": "^6.x",
+    "react-helmet-async": "^2.x",
+    "framer-motion": "^11.x"
+  },
+  "devDependencies": {
+    "vite": "^5.x",
+    "tailwindcss": "^3.x",
+    "postcss": "^8.x",
+    "autoprefixer": "^10.x"
+  }
+}
+
+Fonts & Performance
+
+Add to index.html head:
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+Use Google Fonts (Poppins or Montserrat) with display=swap
+
+Inline small critical styles for hero if needed (optional)
+
+Quality Checklist (auto-verify)
+
+Header uses logo file only (no text site name)
+
+Unique titles/descriptions/canonical/OG/Twitter on every page
+
+JSON-LD valid (Organization, Breadcrumbs, Service, FAQ, Article)
+
+sitemap.xml lists every route (see list above)
+
+robots.txt references the sitemap
+
+All CTAs link correctly (placeholders where needed)
+
+Mobile nav works; sticky header doesn’t overlap targets
+
+All images lazy-load with meaningful alt
+
+Gradient is prominent but tasteful (buttons, section dividers, CTA band)
+
+Easy logo swap at /public/assets/img/logo.svg
+
+Works on Netlify/Vercel/cPanel (static assets only)
