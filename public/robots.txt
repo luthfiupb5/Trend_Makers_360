@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Disallow admin or private areas if any exist in the future
+Disallow: /admin/
+Disallow: /private/
+
+# Allow search engines to crawl all public content
+Allow: /services/
+Allow: /portfolio/
+Allow: /case-studies/
+Allow: /blog/
+Allow: /about/
+Allow: /contact/
+
+# Sitemap location
+Sitemap: https://www.trendmakers360.in/sitemap.xml
+
+# Crawl-delay (optional - be respectful to servers)
+Crawl-delay: 1
